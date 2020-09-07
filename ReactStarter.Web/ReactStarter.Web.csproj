@@ -52,4 +52,10 @@
     </ItemGroup>
   </Target>
 
+  <ItemGroup>
+    <None Update="app.yaml">
+      <CopyToPublishDirectory>PreserveNewest</CopyToPublishDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
