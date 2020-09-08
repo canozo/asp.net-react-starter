@@ -1,13 +1,17 @@
 steps:
-- name: 'gcr.io/cloud-builders/npm'
+- name: 'node'
+  entrypoint: 'npm'
   args: ['install']
   dir: 'ReactStarter.Web/Client/'
 
-- name: 'gcr.io/cloud-builders/npm'
+- name: 'node'
+  entrypoint: 'npm'
   args: ['run', 'test']
   dir: 'ReactStarter.Web/Client/'
+  env: ['CI=true']
 
-- name: 'gcr.io/cloud-builders/npm'
+- name: 'node'
+  entrypoint: 'npm'
   args: ['run', 'build']
   dir: 'ReactStarter.Web/Client/'
 
