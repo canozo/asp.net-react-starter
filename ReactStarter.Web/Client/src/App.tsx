@@ -6,15 +6,15 @@ function App() {
     <div className="app">
       <header className="app-header">
         <p>
-          Bienvenido a mi prueba de React Typescript con ASP.NET Core
+          ASP.NET Core + React Typescript
         </p>
         <a
           className="app-link"
-          href="https://github.com/canozo/acklen-app-testing"
+          href="https://github.com/canozo/asp.net-react-starter"
           target="_blank"
           rel="noopener noreferrer"
         >
-          Repositorio
+          Repo
         </a>
       </header>
     </div>
