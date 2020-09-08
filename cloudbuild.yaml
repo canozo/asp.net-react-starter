@@ -2,23 +2,23 @@ steps:
 - name: 'node'
   entrypoint: 'npm'
   args: ['install']
-  dir: 'ReactStarter.Web/Client/'
+  dir: 'ReactStarter.Web/Client'
 
 - name: 'node'
   entrypoint: 'npm'
   args: ['run', 'test']
-  dir: 'ReactStarter.Web/Client/'
+  dir: 'ReactStarter.Web/Client'
   env: ['CI=true']
 
 - name: 'node'
   entrypoint: 'npm'
   args: ['run', 'build']
-  dir: 'ReactStarter.Web/Client/'
+  dir: 'ReactStarter.Web/Client'
 
 - name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
   entrypoint: 'dotnet'
   args: ['publish', '-c', 'Release', '-o', 'Production']
 
 - name: 'gcr.io/cloud-builders/gcloud'
-  args: ['app', 'deploy']
-  dir: 'ReactStarter.Web/bin/Release/netcoreapp3.1/publish'
+  args: ['app', 'deploy', 'app.yaml']
+  dir: 'Production'
