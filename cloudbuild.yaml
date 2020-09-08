@@ -1,15 +1,19 @@
 steps:
-- name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
-  entrypoint: 'dotnet'
-  args: ['--version']
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['install']
+  dir: 'ReactStarter.Web/Client/'
+
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['run', 'test']
+  dir: 'ReactStarter.Web/Client/'
+
+- name: 'gcr.io/cloud-builders/npm'
+  args: ['run', 'build']
+  dir: 'ReactStarter.Web/Client/'
 
 - name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
   entrypoint: 'dotnet'
-  args: ['restore']
-
-- name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
-  entrypoint: 'dotnet'
-  args: ['publish', '-c', 'Release']
+  args: ['publish', '-c', 'Release', '-o', 'Production']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy']

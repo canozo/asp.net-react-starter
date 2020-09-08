@@ -26,7 +26,12 @@ namespace ReactStarter.Web
             // In production, the React files will be served from this directory
             services.AddSpaStaticFiles(configuration =>
             {
-                configuration.RootPath = "Client/build";
+                // this would normally be served on the following directory:
+                // configuration.RootPath = "Client/build";
+                // but since google cloud build doesn't let us run dotnet and npm in the same pipeline step
+                // we'll first build the dotnet application independently and then build the react app,
+                // and the expected react app build directory is:
+                configuration.RootPath = "../ReactStarter.Web/Client/build";
             });
         }
 
