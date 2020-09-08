@@ -20,3 +20,5 @@ steps:
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app.yaml']
   dir: 'ReactStarter.Web/bin/Release/netcoreapp3.1/publish'
+
+timeout: 720s # 12 minutes
