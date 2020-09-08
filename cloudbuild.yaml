@@ -1,13 +1,13 @@
 steps:
-- name: 'microsoft/dotnet:sdk'
+- name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
   entrypoint: 'dotnet'
   args: ['--version']
 
-- name: 'microsoft/dotnet:sdk'
+- name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
   entrypoint: 'dotnet'
   args: ['restore']
 
-- name: 'microsoft/dotnet:sdk'
+- name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
   entrypoint: 'dotnet'
   args: ['publish', '-c', 'Release']
 
