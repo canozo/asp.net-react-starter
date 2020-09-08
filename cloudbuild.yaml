@@ -1,9 +1,4 @@
 steps:
-- name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
-  entrypoint: 'dotnet'
-  args: ['publish', '-c', 'Release']
-  env: ['DOTNET_CLI_TELEMETRY_OPTOUT=true']
-
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
   dir: 'ReactStarter.Web/Client'
@@ -17,15 +12,10 @@ steps:
   args: ['run', 'build']
   dir: 'ReactStarter.Web/Client'
 
-- name: 'bash'
-  args:
-  - 'mkdir'
-  - '-p'
-  - 'ReactStarter.Web/bin/Release/netcoreapp3.1/publish/Client/build'
-  - '&&'
-  - 'mv'
-  - 'ReactStarter.Web/Client/build/*'
-  - 'ReactStarter.Web/bin/Release/netcoreapp3.1/publish/Client/build'
+- name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
+  entrypoint: 'dotnet'
+  args: ['publish', '-c', 'Release']
+  env: ['DOTNET_CLI_TELEMETRY_OPTOUT=true']
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app.yaml']
