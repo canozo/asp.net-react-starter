@@ -1,4 +1,8 @@
 steps:
+- name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
+  entrypoint: 'dotnet'
+  args: ['publish', '-c', 'Release']
+
 - name: 'node'
   entrypoint: 'npm'
   args: ['install']
@@ -15,10 +19,15 @@ steps:
   args: ['run', 'build']
   dir: 'ReactStarter.Web/Client'
 
-- name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
-  entrypoint: 'dotnet'
-  args: ['publish', '-c', 'Release', '-o', 'Production']
+steps:
+- name: 'bash'
+  args: ['mkdir', 'ReactStarter.Web/bin/Release/netcoreapp3.1/publish/Client/build']
+
+steps:
+- name: 'bash'
+  args: ['mv', 'build/*', '../bin/Release/netcoreapp3.1/publish/Client/build']
+  dir: 'ReactStarter.Web/Client'
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app.yaml']
-  dir: 'Production'
+  dir: 'ReactStarter.Web/bin/Release/netcoreapp3.1/publish'
