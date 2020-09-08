@@ -20,7 +20,7 @@ steps:
   dir: 'ReactStarter.Web/Client'
 
 - name: 'bash'
-  args: ['mkdir', 'ReactStarter.Web/bin/Release/netcoreapp3.1/publish/Client/build']
+  args: ['mkdir', '-p', 'ReactStarter.Web/bin/Release/netcoreapp3.1/publish/Client/build']
 
 - name: 'bash'
   args: ['mv', 'build/*', '../bin/Release/netcoreapp3.1/publish/Client/build']
