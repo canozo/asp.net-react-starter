@@ -2,6 +2,7 @@ steps:
 - name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
   entrypoint: 'dotnet'
   args: ['publish', '-c', 'Release']
+  env: ['DOTNET_CLI_TELEMETRY_OPTOUT=true']
 
 - name: 'node'
   entrypoint: 'npm'
