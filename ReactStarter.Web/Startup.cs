@@ -7,6 +7,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ReactStarter.Web.Models;
+using ReactStarter.Web.Services;
 
 namespace ReactStarter.Web
 {
@@ -20,9 +21,8 @@ namespace ReactStarter.Web
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services)
+        public void ConfigureServices(IServiceCollection services, IWebHostEnvironment env)
         {
-
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -31,8 +31,20 @@ namespace ReactStarter.Web
                 configuration.RootPath = "Client/build";
             });
 
-            services.AddDbContext<WeatherContext>(options =>
-                options.UseNpgsql(Configuration.GetConnectionString("WeatherContext")));
+            if (env.IsDevelopment())
+            {
+                // if environment is development, get connection string from local app settings
+                services.AddDbContext<WeatherContext>(options =>
+                    options.UseNpgsql(Configuration.GetConnectionString("WeatherContext")));
+            }
+            else
+            {
+                // if the environment is production, get connection string from Google Cloud Secret Manager
+                var projectId = Configuration["GCLOUD_PROJECT_ID"];
+                var weatherSecretId = Configuration["WEATHER_SECRET_ID"];
+                services.AddDbContext<WeatherContext>(options =>
+                    options.UseNpgsql(DatabaseSecretManager.GetSecret(projectId, weatherSecretId).ToString()));
+            }
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
