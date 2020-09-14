@@ -13,15 +13,18 @@ namespace ReactStarter.Web
 {
     public class Startup
     {
-        public Startup(IConfiguration configuration)
+        private readonly IWebHostEnvironment _env;
+
+        public Startup(IConfiguration configuration, IWebHostEnvironment env)
         {
             Configuration = configuration;
+            _env = env;
         }
 
         public IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
-        public void ConfigureServices(IServiceCollection services, IWebHostEnvironment env)
+        public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
 
@@ -31,7 +34,7 @@ namespace ReactStarter.Web
                 configuration.RootPath = "Client/build";
             });
 
-            if (env.IsDevelopment())
+            if (_env.IsDevelopment())
             {
                 // if environment is development, get connection string from local app settings
                 services.AddDbContext<WeatherContext>(options =>
