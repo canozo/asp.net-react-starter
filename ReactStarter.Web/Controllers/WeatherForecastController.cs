@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
+using ReactStarter.Web.Models;
 
 namespace ReactStarter.Web.Controllers
 {
@@ -11,29 +12,41 @@ namespace ReactStarter.Web.Controllers
     [Route("api/[controller]")]
     public class WeatherForecastController : ControllerBase
     {
-        private static readonly string[] Summaries = new[]
-        {
-            "Freezing", "Bracing", "Chilly", "Cool", "Mild", "Warm", "Balmy", "Hot", "Sweltering", "Scorching"
-        };
-
+        private readonly WeatherContext _context;
         private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger)
+        public WeatherForecastController(ILogger<WeatherForecastController> logger, WeatherContext context)
         {
             _logger = logger;
+            _context = context;
         }
 
         [HttpGet]
-        public IEnumerable<WeatherForecast> Get()
+        public IEnumerable<WeatherForecast> Get() =>
+            _context.WeatherForecasts.ToList();
+
+        [HttpPost]
+        public IActionResult Post(WeatherForecastParameters body)
         {
             var rng = new Random();
-            return Enumerable.Range(1, 5).Select(index => new WeatherForecast
+            var weatherForecast = new WeatherForecast
             {
-                Date = DateTime.Now.AddDays(index),
-                TemperatureC = rng.Next(-20, 55),
-                Summary = Summaries[rng.Next(Summaries.Length)]
-            })
-            .ToArray();
+                Date = DateTime.Now.AddDays(rng.Next(0, 100)),
+                TemperatureC = body.TemperatureC,
+                Summary = body.Summary
+            };
+
+            _context.Add(weatherForecast);
+            _context.SaveChanges();
+
+            return Ok(weatherForecast);
+        }
+
+        public class WeatherForecastParameters
+        {
+            public int TemperatureC { get; set; }
+
+            public string Summary { get; set; }
         }
     }
 }
