@@ -1,6 +1,6 @@
 ﻿using Google.Cloud.SecretManager.V1;
 
-namespace ReactStarter.Web.Services
+namespace NetWorthCalc.Web.Services
 {
     public class SecretManager
     {

@@ -4,9 +4,9 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
-using ReactStarter.Web.Models;
+using NetWorthCalc.Web.Models;
 
-namespace ReactStarter.Web.Controllers
+namespace NetWorthCalc.Web.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]

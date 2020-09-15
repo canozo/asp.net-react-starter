@@ -7,9 +7,9 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
-using ReactStarter.Web.Models;
+using NetWorthCalc.Web.Models;
 
-namespace ReactStarter.Web
+namespace NetWorthCalc.Web
 {
     public class Program
     {

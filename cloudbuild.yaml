@@ -1,16 +1,16 @@
 steps:
 - name: 'gcr.io/cloud-builders/npm'
   args: ['install']
-  dir: 'ReactStarter.Web/Client'
+  dir: 'NetWorthCalc.Web/Client'
 
 - name: 'gcr.io/cloud-builders/npm'
   args: ['run', 'test']
-  dir: 'ReactStarter.Web/Client'
+  dir: 'NetWorthCalc.Web/Client'
   env: ['CI=true']
 
 - name: 'gcr.io/cloud-builders/npm'
   args: ['run', 'build']
-  dir: 'ReactStarter.Web/Client'
+  dir: 'NetWorthCalc.Web/Client'
 
 - name: 'mcr.microsoft.com/dotnet/core/sdk:3.1'
   entrypoint: 'dotnet'
@@ -19,6 +19,6 @@ steps:
 
 - name: 'gcr.io/cloud-builders/gcloud'
   args: ['app', 'deploy', 'app.yaml']
-  dir: 'ReactStarter.Web/bin/Release/netcoreapp3.1/publish'
+  dir: 'NetWorthCalc.Web/bin/Release/netcoreapp3.1/publish'
 
 timeout: 720s # 12 minutes

@@ -1,6 +1,6 @@
 using System;
 
-namespace ReactStarter.Web
+namespace NetWorthCalc.Web
 {
     public class WeatherForecast
     {

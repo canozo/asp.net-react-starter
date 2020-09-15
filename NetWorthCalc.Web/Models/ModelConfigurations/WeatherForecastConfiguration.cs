@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
-namespace ReactStarter.Web.Models.ModelConfigurations
+namespace NetWorthCalc.Web.Models.ModelConfigurations
 {
     public class WeatherForecastConfiguration : IEntityTypeConfiguration<WeatherForecast>
     {

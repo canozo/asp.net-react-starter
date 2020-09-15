@@ -6,11 +6,11 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
-using ReactStarter.Web.Models;
-using ReactStarter.Web.Services;
+using NetWorthCalc.Web.Models;
+using NetWorthCalc.Web.Services;
 using Microsoft.Extensions.Logging;
 
-namespace ReactStarter.Web
+namespace NetWorthCalc.Web
 {
     public class Startup
     {
