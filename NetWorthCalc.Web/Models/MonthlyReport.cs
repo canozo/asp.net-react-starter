@@ -17,7 +17,7 @@ namespace NetWorthCalc.Web.Models
 
         public DateTime CreatedOn { get; private set; }
 
-        public Guid UserId { get; set; }
+        public string UserId { get; set; }
 
         public int Month { get; set; }
 

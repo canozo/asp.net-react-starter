@@ -18,6 +18,7 @@ namespace NetWorthCalc.Web.Models.ModelConfigurations
                 .IsRequired();
 
             builder.Property(prop => prop.UserId)
+                .HasMaxLength(100)
                 .IsRequired();
 
             builder.Property(prop => prop.Month)
