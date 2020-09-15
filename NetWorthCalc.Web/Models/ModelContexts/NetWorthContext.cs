@@ -7,11 +7,11 @@ using System.Threading.Tasks;
 
 namespace NetWorthCalc.Web.Models
 {
-    public class MonthlyReportContext : DbContext
+    public class NetWorthContext : DbContext
     {
         public DbSet<MonthlyReport> MonthlyReports { get; set; }
 
-        public MonthlyReportContext(DbContextOptions<MonthlyReportContext> options) : base(options)
+        public NetWorthContext(DbContextOptions<NetWorthContext> options) : base(options)
         {
         }
 
