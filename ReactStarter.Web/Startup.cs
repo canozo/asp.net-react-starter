@@ -8,6 +8,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.EntityFrameworkCore;
 using ReactStarter.Web.Models;
 using ReactStarter.Web.Services;
+using Microsoft.Extensions.Logging;
 
 namespace ReactStarter.Web
 {
@@ -34,19 +35,38 @@ namespace ReactStarter.Web
                 configuration.RootPath = "Client/build";
             });
 
+            // Create a local LoggerFactory in order to log database connections
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            });
+
+            ILogger logger = loggerFactory.CreateLogger<Startup>();
+
             if (_env.IsDevelopment())
             {
-                // if environment is development, get connection string from local app settings
-                services.AddDbContext<WeatherContext>(options =>
-                    options.UseNpgsql(Configuration.GetConnectionString("WeatherContext")));
+                // If environment is development, get connection string from local app settings
+                var connectionString = Configuration.GetConnectionString("WeatherContext");
+
+                logger.LogInformation("Adding database context for development environment.");
+                logger.LogInformation("Connection string: " + connectionString);
+
+                services.AddDbContext<WeatherContext>(options => options.UseNpgsql(connectionString));
             }
             else
             {
-                // if the environment is production, get connection string from Google Cloud Secret Manager
+                // If the environment is production, get connection string from Google Cloud Secret Manager
                 var projectId = Configuration["GCLOUD_PROJECT_ID"];
                 var weatherSecretId = Configuration["WEATHER_SECRET_ID"];
-                services.AddDbContext<WeatherContext>(options =>
-                    options.UseNpgsql(DatabaseSecretManager.GetSecret(projectId, weatherSecretId).ToString()));
+
+                var connectionString = DatabaseSecretManager.GetSecret(projectId, weatherSecretId).ToString();
+
+                logger.LogInformation("Adding database context for production environment.");
+                logger.LogInformation("Project ID: " + projectId);
+                logger.LogInformation("Weather Secret ID: " + weatherSecretId);
+                logger.LogInformation("Connection string: " + connectionString);
+
+                services.AddDbContext<WeatherContext>(options => options.UseNpgsql(connectionString));
             }
         }
 
