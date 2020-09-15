@@ -42,6 +42,12 @@ namespace NetWorthCalc.Web.Controllers
             return Ok(weatherForecast);
         }
 
+        [HttpPut]
+        public IActionResult Put(List<WeatherForecastParameters> items)
+        {
+            return Ok(items);
+        }
+
         public class WeatherForecastParameters
         {
             public int TemperatureC { get; set; }
