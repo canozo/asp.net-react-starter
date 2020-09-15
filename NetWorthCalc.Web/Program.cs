@@ -29,8 +29,11 @@ namespace NetWorthCalc.Web
 
             try
             {
-                var context = services.GetRequiredService<WeatherContext>();
-                context.Database.EnsureCreated();
+                var weatherContext = services.GetRequiredService<WeatherContext>();
+                weatherContext.Database.EnsureCreated();
+
+                var netWorthContext = services.GetRequiredService<NetWorthContext>();
+                netWorthContext.Database.EnsureCreated();
             }
             catch (Exception ex)
             {

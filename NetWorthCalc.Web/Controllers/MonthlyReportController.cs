@@ -12,18 +12,14 @@ namespace NetWorthCalc.Web.Controllers
     [Route("api/[controller]")]
     public class MonthlyReportController : ControllerBase
     {
-        private readonly MonthlyReportContext _context;
+        private readonly NetWorthContext _context;
         private readonly ILogger<MonthlyReportController> _logger;
 
-        public MonthlyReportController(ILogger<MonthlyReportController> logger, MonthlyReportContext context)
+        public MonthlyReportController(ILogger<MonthlyReportController> logger, NetWorthContext context)
         {
             _logger = logger;
             _context = context;
         }
-
-        [HttpGet]
-        public IEnumerable<MonthlyReport> Get() =>
-            _context.MonthlyReports.ToList();
 
         [HttpPost]
         public IActionResult Post(MonthlyReportParameters body)

@@ -63,8 +63,10 @@ namespace NetWorthCalc.Web
             }
 
             string weatherConnectionString = "Database=weather; " + connectionString;
+            string networthConnectionString = "Database=networth; " + connectionString;
 
             services.AddDbContext<WeatherContext>(options => options.UseNpgsql(weatherConnectionString));
+            services.AddDbContext<NetWorthContext>(options => options.UseNpgsql(networthConnectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
