@@ -14,5 +14,5 @@ resources:
 
 env_variables:
   GCLOUD_PROJECT_ID: initial-testing-288805
-  WEATHER_SECRET_ID: db-connection-string-weather
-  NETWORTH_SECRET_ID: db-connection-string-networth
+  SECRET_ID: db-connection-string
+  SECRET_VERSION_ID: 1

@@ -43,31 +43,34 @@ namespace ReactStarter.Web
 
             ILogger logger = loggerFactory.CreateLogger<Startup>();
 
+            string connectionString;
             if (_env.IsDevelopment())
             {
                 // If environment is development, get connection string from local app settings
-                var connectionString = Configuration.GetConnectionString("WeatherContext");
+                connectionString = Configuration.GetConnectionString("WeatherContext");
 
                 logger.LogInformation("Adding database context for development environment.");
-                logger.LogInformation("Connection string: " + connectionString);
-
-                services.AddDbContext<WeatherContext>(options => options.UseNpgsql(connectionString));
             }
             else
             {
                 // If the environment is production, get connection string from Google Cloud Secret Manager
                 var projectId = Configuration["GCLOUD_PROJECT_ID"];
-                var weatherSecretId = Configuration["WEATHER_SECRET_ID"];
+                var secretId = Configuration["SECRET_ID"];
+                var versionSecretId = Configuration["SECRET_VERSION_ID"];
 
-                var connectionString = DatabaseSecretManager.GetSecret(projectId, weatherSecretId).ToString();
+                connectionString = DatabaseSecretManager.AccessSecret(projectId, secretId, versionSecretId);
 
                 logger.LogInformation("Adding database context for production environment.");
                 logger.LogInformation("Project ID: " + projectId);
-                logger.LogInformation("Weather Secret ID: " + weatherSecretId);
-                logger.LogInformation("Connection string: " + connectionString);
-
-                services.AddDbContext<WeatherContext>(options => options.UseNpgsql(connectionString));
+                logger.LogInformation("Secret ID: " + secretId);
+                logger.LogInformation("Version Secret ID: " + versionSecretId);
             }
+
+            logger.LogInformation("Connection string: " + connectionString);
+
+            string weatherConnectionString = "Database=weather; " + connectionString;
+
+            services.AddDbContext<WeatherContext>(options => options.UseNpgsql(weatherConnectionString));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.

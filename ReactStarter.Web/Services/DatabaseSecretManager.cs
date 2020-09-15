@@ -4,17 +4,19 @@ namespace ReactStarter.Web.Services
 {
     public class DatabaseSecretManager
     {
-        public static Secret GetSecret(string projectId, string secretId)
+        public static string AccessSecret(string projectId, string secretId, string secretVersionId)
         {
-            // Create the Client.
+            // Create the client.
             SecretManagerServiceClient client = SecretManagerServiceClient.Create();
 
             // Build the resource name.
-            SecretName secretName = new SecretName(projectId, secretId);
+            SecretVersionName secretVersionName = new SecretVersionName(projectId, secretId, secretVersionId);
 
             // Call the API.
-            Secret secret = client.GetSecret(secretName);
-            return secret;
+            AccessSecretVersionResponse result = client.AccessSecretVersion(secretVersionName);
+
+            // Convert the payload to a string. Payloads are bytes by default.
+            return result.Payload.Data.ToStringUtf8();
         }
     }
 }
