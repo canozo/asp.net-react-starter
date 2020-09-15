@@ -47,26 +47,20 @@ namespace ReactStarter.Web
             if (_env.IsDevelopment())
             {
                 // If environment is development, get connection string from local app settings
-                connectionString = Configuration.GetConnectionString("WeatherContext");
+                connectionString = Configuration.GetConnectionString("LocalConnection");
 
                 logger.LogInformation("Adding database context for development environment.");
             }
             else
             {
                 // If the environment is production, get connection string from Google Cloud Secret Manager
-                var projectId = Configuration["GCLOUD_PROJECT_ID"];
-                var secretId = Configuration["SECRET_ID"];
-                var versionSecretId = Configuration["SECRET_VERSION_ID"];
-
-                connectionString = DatabaseSecretManager.AccessSecret(projectId, secretId, versionSecretId);
+                connectionString = DatabaseSecretManager.AccessSecret(
+                    Configuration["GCLOUD_PROJECT_ID"],
+                    Configuration["SECRET_ID"],
+                    Configuration["SECRET_VERSION_ID"]);
 
                 logger.LogInformation("Adding database context for production environment.");
-                logger.LogInformation("Project ID: " + projectId);
-                logger.LogInformation("Secret ID: " + secretId);
-                logger.LogInformation("Version Secret ID: " + versionSecretId);
             }
-
-            logger.LogInformation("Connection string: " + connectionString);
 
             string weatherConnectionString = "Database=weather; " + connectionString;
 
