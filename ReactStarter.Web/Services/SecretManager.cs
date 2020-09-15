@@ -2,7 +2,7 @@
 
 namespace ReactStarter.Web.Services
 {
-    public class DatabaseSecretManager
+    public class SecretManager
     {
         public static string AccessSecret(string projectId, string secretId, string secretVersionId)
         {

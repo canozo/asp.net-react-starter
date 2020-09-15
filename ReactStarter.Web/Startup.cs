@@ -54,7 +54,7 @@ namespace ReactStarter.Web
             else
             {
                 // If the environment is production, get connection string from Google Cloud Secret Manager
-                connectionString = DatabaseSecretManager.AccessSecret(
+                connectionString = SecretManager.AccessSecret(
                     Configuration["GCLOUD_PROJECT_ID"],
                     Configuration["SECRET_ID"],
                     Configuration["SECRET_VERSION_ID"]);
