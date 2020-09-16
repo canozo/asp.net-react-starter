@@ -1,7 +1,7 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
 import { Book, Briefcase, PieChart } from 'react-feather';
 import LandingNavBar from '../../components/LandingNavBar';
+import LandingGetStarted from '../../components/LandingGetStarted';
 import LandingCard from '../../components/LandingCard';
 import './Landing.scss';
 
@@ -34,9 +34,7 @@ const Landing: React.FC = () => {
             />
           </div>
           <div className="d-flex mt-5 justify-content-center">
-            <Link to="/app">
-              <button type="button" className="btn btn-lg btn-primary">Get started!</button>
-            </Link>
+            <LandingGetStarted />
           </div>
         </div>
       </div>

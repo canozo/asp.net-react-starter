@@ -10,7 +10,7 @@ const LandingNavBar: React.FC = () => {
         <Link to="/" className="navbar-brand">
           <span className="navbar-title">Net Worth Calculator</span>
         </Link>
-        <div className="d-flex justify-content-between navbar-access-buttons">
+        <div className="d-flex justify-content-end navbar-access-buttons">
           <AccessButtons />
         </div>
       </div>

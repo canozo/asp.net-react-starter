@@ -25,7 +25,7 @@ const AccessButtons: React.FC = () => {
         </Link>
         <button
           type="button"
-          className="btn btn-dark"
+          className="btn btn-dark ml-2"
           onClick={() => logout({ returnTo: window.location.origin })}
         >
           Log out
