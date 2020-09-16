@@ -1,9 +1,26 @@
 .landing-curve {
   background-color: #f7f2e7;
   min-height: 80vh;
-  border-radius: 0% 0% 100% 19% / 0% 0% 47% 38%;
-  background: rgb(224,236,228);
-  background: linear-gradient(124deg, rgba(224,236,228,1) 38%, rgba(247,242,231,1) 77%);
+  background: rgb(224, 236, 228);
+  background: linear-gradient(124deg, rgba(224, 236, 228, 1) 38%, rgba(247, 242, 231, 1) 77%);
+}
+
+@media screen and (min-width: 1200px) {
+  .landing-curve {
+    border-radius: 0% 0% 100% 19% / 0% 0% 47% 38%;
+  }
+}
+
+@media screen and (min-width: 768px) and (max-width: 1199px) {
+  .landing-curve {
+    border-radius: 0% 0% 100% 19% / 0% 0% 20% 19%;
+  }
+}
+
+@media screen and (min-width: 0px) and (max-width: 767px) {
+  .landing-curve {
+    min-height: 88vh;
+  }
 }
 
 .landing-text-container {
