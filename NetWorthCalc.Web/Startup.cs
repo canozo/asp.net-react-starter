@@ -9,6 +9,9 @@ using Microsoft.EntityFrameworkCore;
 using NetWorthCalc.Web.Models;
 using NetWorthCalc.Web.Services;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.IdentityModel.Tokens;
+using System.Security.Claims;
 
 namespace NetWorthCalc.Web
 {
@@ -27,6 +30,25 @@ namespace NetWorthCalc.Web
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            // Create a local LoggerFactory in order to log events while configuring services
+            var loggerFactory = LoggerFactory.Create(builder =>
+            {
+                builder.AddConsole();
+            });
+
+            ILogger logger = loggerFactory.CreateLogger<Startup>();
+
+            // Add authentication for Auth0
+            services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            }).AddJwtBearer(options =>
+            {
+                options.Authority = $"https://{Configuration["Auth0:Domain"]}";
+                options.Audience = $"https://{Configuration["Auth0:Audience"]}";
+            });
+
             services.AddControllersWithViews();
 
             // In production, the React files will be served from this directory
@@ -34,14 +56,6 @@ namespace NetWorthCalc.Web
             {
                 configuration.RootPath = "Client/build";
             });
-
-            // Create a local LoggerFactory in order to log database connections
-            var loggerFactory = LoggerFactory.Create(builder =>
-            {
-                builder.AddConsole();
-            });
-
-            ILogger logger = loggerFactory.CreateLogger<Startup>();
 
             string connectionString;
             if (_env.IsDevelopment())
@@ -82,6 +96,7 @@ namespace NetWorthCalc.Web
             app.UseSpaStaticFiles();
 
             app.UseRouting();
+            app.UseAuthentication();
             app.UseAuthorization();
             app.UseEndpoints(endpoints =>
             {

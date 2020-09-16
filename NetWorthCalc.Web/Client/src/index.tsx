@@ -3,6 +3,7 @@ import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
 import { Auth0Provider } from '@auth0/auth0-react';
 import * as serviceWorker from './serviceWorker';
+import settings from './settings';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.scss';
@@ -12,6 +13,8 @@ ReactDOM.render(
     domain="cano-dev.us.auth0.com"
     clientId="J8qLvVVnIb0Zx4Iq0SrwBPwaAucU2ecA"
     redirectUri={window.location.origin}
+    audience={`https://${settings.server}/api`}
+    scope="read:current_user"
   >
     <BrowserRouter>
       <App />
