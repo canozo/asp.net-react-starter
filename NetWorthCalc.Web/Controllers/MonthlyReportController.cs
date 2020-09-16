@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -9,6 +10,7 @@ using NetWorthCalc.Web.Models;
 
 namespace NetWorthCalc.Web.Controllers
 {
+    [Authorize]
     [ApiController]
     [Route("api/[controller]")]
     public class MonthlyReportController : ControllerBase
@@ -25,14 +27,17 @@ namespace NetWorthCalc.Web.Controllers
         [HttpPost]
         public IActionResult Post(MonthlyReportParameters body)
         {
-            if (_context.MonthlyReports.Where(mr => mr.UserId == body.UserId && mr.Month == body.Month && mr.Year == body.Year).Any())
+            string UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+
+            var exists = _context.MonthlyReports.Where(mr => mr.UserId == UserId && mr.Month == body.Month && mr.Year == body.Year);
+            if (exists.Any())
             {
-                Ok("A report for this month already exists!");
+                Ok(exists.First());
             }
 
             var monthlyReport = new MonthlyReport
             {
-                UserId = body.UserId,
+                UserId = UserId,
                 Month = body.Month,
                 Year = body.Year,
             };
@@ -45,8 +50,6 @@ namespace NetWorthCalc.Web.Controllers
 
         public class MonthlyReportParameters
         {
-            public string UserId { get; set; }
-
             public int Month { get; set; }
 
             public int Year { get; set; }
