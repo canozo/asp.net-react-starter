@@ -47,6 +47,10 @@ namespace NetWorthCalc.Web
             {
                 options.Authority = $"https://{Configuration["Auth0:Domain"]}";
                 options.Audience = $"https://{Configuration["Auth0:Audience"]}";
+                options.TokenValidationParameters = new TokenValidationParameters()
+                {
+                    NameClaimType = ClaimTypes.NameIdentifier
+                };
             });
 
             services.AddControllersWithViews();
