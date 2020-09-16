@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link }from 'react-router-dom';
+import AccessButtons from './AccessButtons';
 import './LandingNavBar.scss';
 
 const LandingNavBar: React.FC = () => {
@@ -9,7 +10,9 @@ const LandingNavBar: React.FC = () => {
         <Link to="/" className="navbar-brand">
           <span className="navbar-title">Net Worth Calculator</span>
         </Link>
-        <button type="button" className="btn btn-dark btn-login">Log in</button>
+        <div className="d-flex justify-content-between navbar-access-buttons">
+          <AccessButtons />
+        </div>
       </div>
     </nav>
   );

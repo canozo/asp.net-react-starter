@@ -1,15 +1,22 @@
 import React from 'react';
 import ReactDOM from 'react-dom';
 import { BrowserRouter } from 'react-router-dom';
+import { Auth0Provider } from '@auth0/auth0-react';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
 import 'bootstrap/dist/css/bootstrap.min.css';
 import './index.scss';
 
 ReactDOM.render(
-  <BrowserRouter>
-    <App />
-  </BrowserRouter>,
+  <Auth0Provider
+    domain="cano-dev.us.auth0.com"
+    clientId="J8qLvVVnIb0Zx4Iq0SrwBPwaAucU2ecA"
+    redirectUri={window.location.origin}
+  >
+    <BrowserRouter>
+      <App />
+    </BrowserRouter>
+  </Auth0Provider>,
   document.getElementById('root')
 );
 
