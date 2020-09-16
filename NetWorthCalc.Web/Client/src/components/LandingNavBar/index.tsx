@@ -4,13 +4,12 @@ import './LandingNavBar.scss';
 
 const LandingNavBar: React.FC = () => {
   return (
-    <nav className="navbar navbar-expand-lg navbar-light bg-none">
+    <nav className="navbar navbar-expand-lg navbar-dark">
       <div className="container-sm">
         <Link to="/" className="navbar-brand">
-          {/* <img width="180" height="41" src="logo.png" alt="Net Worth Calc" /> */}
           <span className="navbar-title">Net Worth Calculator</span>
         </Link>
-        <button type="button" className="btn btn-link">Log in</button>
+        <button type="button" className="btn btn-dark btn-login">Log in</button>
       </div>
     </nav>
   );

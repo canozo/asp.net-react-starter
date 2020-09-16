@@ -1,0 +1,18 @@
+.landing-curve {
+  background-color: #f7f2e7;
+  min-height: 80vh;
+  border-radius: 0% 0% 100% 19% / 0% 0% 47% 38%;
+  background: rgb(224,236,228);
+  background: linear-gradient(124deg, rgba(224,236,228,1) 38%, rgba(247,242,231,1) 77%);
+}
+
+.landing-text-container {
+  max-width: 720px;
+  margin: auto;
+}
+
+.landing-title {
+  font-family: 'Rubik', sans-serif;
+  font-size: 3rem;
+  font-weight: 300;
+}
