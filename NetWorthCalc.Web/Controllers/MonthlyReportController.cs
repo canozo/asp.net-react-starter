@@ -26,9 +26,9 @@ namespace NetWorthCalc.Web.Controllers
         [HttpGet]
         public IEnumerable GetList()
         {
-            string UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            return _context.MonthlyReports.Where(mr => mr.UserId == UserId).Select(mr => new
+            return _context.MonthlyReports.Where(mr => mr.UserId == userId).Select(mr => new
             {
                 mr.MonthlyReportId,
                 mr.CreatedOn,
@@ -40,7 +40,7 @@ namespace NetWorthCalc.Web.Controllers
         [HttpGet("{id}")]
         public IActionResult GetOne(Guid id)
         {
-            string UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var monthlyReport = _context.MonthlyReports.Find(id);
 
             if (monthlyReport == null)
@@ -48,7 +48,7 @@ namespace NetWorthCalc.Web.Controllers
                 return NotFound("This report doesn't exist.");
             }
 
-            if (monthlyReport.UserId != UserId)
+            if (monthlyReport.UserId != userId)
             {
                 return Unauthorized("This report doesn't belong to you.");
             }
@@ -59,15 +59,15 @@ namespace NetWorthCalc.Web.Controllers
         [HttpPost]
         public IActionResult Post(MonthlyReportParameters body)
         {
-            string UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
-            var exists = _context.MonthlyReports.Where(mr => mr.UserId == UserId && mr.Month == body.Month && mr.Year == body.Year);
+            var exists = _context.MonthlyReports.Where(mr => mr.UserId == userId && mr.Month == body.Month && mr.Year == body.Year);
             if (exists.Any())
             {
                 return Ok(exists.First());
             }
 
-            var monthlyReport = new MonthlyReport(UserId, body.Month, body.Year);
+            var monthlyReport = new MonthlyReport(userId, body.Month, body.Year);
 
             _context.Add(monthlyReport);
             _context.SaveChanges();
@@ -85,7 +85,7 @@ namespace NetWorthCalc.Web.Controllers
         [HttpDelete("{id}")]
         public IActionResult Delete(Guid id)
         {
-            string UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
             var monthlyReport = _context.MonthlyReports.Find(id);
 
             if (monthlyReport == null)
@@ -93,7 +93,7 @@ namespace NetWorthCalc.Web.Controllers
                 return NotFound("This report doesn't exist.");
             }
 
-            if (monthlyReport.UserId != UserId)
+            if (monthlyReport.UserId != userId)
             {
                 return Unauthorized("This report doesn't belong to you.");
             }

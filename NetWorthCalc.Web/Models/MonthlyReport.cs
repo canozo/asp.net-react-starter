@@ -5,13 +5,15 @@ namespace NetWorthCalc.Web.Models
 {
     public class MonthlyReport
     {
-        public MonthlyReport(string UserId, int Month, int Year)
+        public MonthlyReport(string userId, int month, int year)
         {
             MonthlyReportId = new Guid();
             CreatedOn = DateTime.Now;
-            this.UserId = UserId;
-            this.Month = Month;
-            this.Year = Year;
+            UserId = userId;
+            Month = month;
+            Year = year;
+            Assets = new List<Asset>();
+            Liabilities = new List<Liability>();
         }
 
         public Guid MonthlyReportId { get; private set; }
