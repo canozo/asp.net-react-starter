@@ -8,6 +8,8 @@ namespace NetWorthCalc.Web.Models
         {
             AssetId = new Guid();
             CreatedOn = DateTime.Now;
+            Name = "";
+            Amount = 0.0;
         }
 
         public Guid AssetId { get; private set; }
