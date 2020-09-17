@@ -1,4 +1,5 @@
-﻿using System.Linq;
+﻿using System.Collections;
+using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -21,10 +22,18 @@ namespace NetWorthCalc.Web.Controllers
             _context = context;
         }
 
+        [HttpGet]
+        public IEnumerable Get()
+        {
+            string UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            return _context.MonthlyReports.Where(mr => mr.UserId == UserId);
+        }
+
+        // Creates a new
         [HttpPost]
         public IActionResult Post(MonthlyReportParameters body)
         {
-            string UserId = this.User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            string UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
 
             var exists = _context.MonthlyReports.Where(mr => mr.UserId == UserId && mr.Month == body.Month && mr.Year == body.Year);
             if (exists.Any())
@@ -32,12 +41,7 @@ namespace NetWorthCalc.Web.Controllers
                 Ok(exists.First());
             }
 
-            var monthlyReport = new MonthlyReport
-            {
-                UserId = UserId,
-                Month = body.Month,
-                Year = body.Year,
-            };
+            var monthlyReport = new MonthlyReport(UserId, body.Month, body.Year);
 
             _context.Add(monthlyReport);
             _context.SaveChanges();
