@@ -1,7 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 
 namespace NetWorthCalc.Web.Models
 {
@@ -24,5 +22,7 @@ namespace NetWorthCalc.Web.Models
         public int Year { get; set; }
 
         public List<Asset> Assets { get; set; }
+
+        public List<Liability> Liabilities { get; set; }
     }
 }
