@@ -13,7 +13,7 @@ const Dashboard: React.FC = () => {
 
   return (
     <div>
-      {token}
+      Bearer {token}
     </div>
   );
 };

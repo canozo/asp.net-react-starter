@@ -32,9 +32,10 @@ namespace NetWorthCalc.Web.Controllers
             {
                 mr.MonthlyReportId,
                 mr.CreatedOn,
+                mr.FullDate,
                 mr.Month,
                 mr.Year
-            }).OrderByDescending(mr => mr.CreatedOn);
+            }).OrderByDescending(mr => mr.FullDate);
         }
 
         [HttpGet("{id}")]
@@ -67,12 +68,19 @@ namespace NetWorthCalc.Web.Controllers
                 return Ok(exists.First());
             }
 
-            var monthlyReport = new MonthlyReport(userId, body.Month, body.Year);
+            try
+            {
+                var monthlyReport = new MonthlyReport(userId, body.Month, body.Year);
 
-            _context.Add(monthlyReport);
-            _context.SaveChanges();
+                _context.Add(monthlyReport);
+                _context.SaveChanges();
 
-            return Ok(monthlyReport);
+                return Ok(monthlyReport);
+            }
+            catch (Exception)
+            {
+                return StatusCode(415, "Fields missing or not valid: 'Month' (1-12), 'Year' (1-9999)");
+            }
         }
 
         public class MonthlyReportParameters

@@ -12,7 +12,7 @@ namespace NetWorthCalc.Web.Models
             UserId = userId;
             Month = month;
             Year = year;
-            FullDate = new DateTime(year, month, 0);
+            FullDate = new DateTime(year, month, 1);
             Assets = new List<Asset>();
             Liabilities = new List<Liability>();
         }
