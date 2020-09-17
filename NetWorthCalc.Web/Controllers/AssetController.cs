@@ -55,8 +55,8 @@ namespace NetWorthCalc.Web.Controllers
                 return Unauthorized("This report doesn't belong to you.");
             }
 
-            var asset = new Asset();
-            monthlyReport.Assets.Add(asset);
+            var asset = new Asset(monthlyReport);
+            _context.Add(asset);
             _context.SaveChanges();
 
             return Ok(asset);

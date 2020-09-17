@@ -4,6 +4,16 @@ namespace NetWorthCalc.Web.Models
 {
     public class Asset
     {
+        public Asset(MonthlyReport monthlyReport)
+        {
+            AssetId = new Guid();
+            CreatedOn = DateTime.Now;
+            Name = "";
+            Amount = 0.0;
+            MonthlyReport = monthlyReport;
+            MonthlyReportId = monthlyReport.MonthlyReportId;
+        }
+
         public Asset()
         {
             AssetId = new Guid();
