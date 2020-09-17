@@ -6,6 +6,8 @@ namespace NetWorthCalc.Web.Models
     public class NetWorthContext : DbContext
     {
         public DbSet<MonthlyReport> MonthlyReports { get; set; }
+        public DbSet<Asset> Assets { get; set; }
+        public DbSet<Liability> Liabilities { get; set; }
 
         public NetWorthContext(DbContextOptions<NetWorthContext> options) : base(options)
         {
