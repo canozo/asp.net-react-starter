@@ -1,27 +1,19 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 
 const Dashboard: React.FC = () => {
+  const [token, setToken] = useState('');
   const { getAccessTokenSilently } = useAuth0();
 
   useEffect(() => {
     getAccessTokenSilently()
-      .then(token => { console.log(token); return token; })
-      .then(token => fetch(`/api/weatherforecast`, {
-        method: 'put',
-        headers: {
-          Accept: 'application/json',
-          Authorization: `Bearer ${token}`,
-        },
-      }))
-      .then(res => res.ok ? res.json() : {})
-      .then(res => console.log(res))
+      .then(token => setToken(token))
       .catch(err => console.log(err));
   }, []);
 
   return (
     <div>
-      /app
+      {token}
     </div>
   );
 };

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
@@ -23,13 +24,38 @@ namespace NetWorthCalc.Web.Controllers
         }
 
         [HttpGet]
-        public IEnumerable Get()
+        public IEnumerable GetList()
         {
             string UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            return _context.MonthlyReports.Where(mr => mr.UserId == UserId);
+
+            return _context.MonthlyReports.Where(mr => mr.UserId == UserId).Select(mr => new
+            {
+                mr.MonthlyReportId,
+                mr.CreatedOn,
+                mr.Month,
+                mr.Year
+            }).OrderByDescending(mr => mr.CreatedOn);
         }
 
-        // Creates a new
+        [HttpGet("{id}")]
+        public IActionResult GetOne(Guid id)
+        {
+            string UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var monthlyReport = _context.MonthlyReports.Find(id);
+
+            if (monthlyReport == null)
+            {
+                return NotFound("This report doesn't exist.");
+            }
+
+            if (monthlyReport.UserId != UserId)
+            {
+                return Unauthorized("This report doesn't belong to you.");
+            }
+
+            return Ok(monthlyReport);
+        }
+
         [HttpPost]
         public IActionResult Post(MonthlyReportParameters body)
         {
@@ -38,7 +64,7 @@ namespace NetWorthCalc.Web.Controllers
             var exists = _context.MonthlyReports.Where(mr => mr.UserId == UserId && mr.Month == body.Month && mr.Year == body.Year);
             if (exists.Any())
             {
-                Ok(exists.First());
+                return Ok(exists.First());
             }
 
             var monthlyReport = new MonthlyReport(UserId, body.Month, body.Year);
@@ -54,6 +80,28 @@ namespace NetWorthCalc.Web.Controllers
             public int Month { get; set; }
 
             public int Year { get; set; }
+        }
+
+        [HttpDelete("{id}")]
+        public IActionResult Delete(Guid id)
+        {
+            string UserId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
+            var monthlyReport = _context.MonthlyReports.Find(id);
+
+            if (monthlyReport == null)
+            {
+                return NotFound("This report doesn't exist.");
+            }
+
+            if (monthlyReport.UserId != UserId)
+            {
+                return Unauthorized("This report doesn't belong to you.");
+            }
+
+            _context.MonthlyReports.Remove(monthlyReport);
+            _context.SaveChanges();
+
+            return Ok(monthlyReport);
         }
     }
 }
