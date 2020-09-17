@@ -9,11 +9,11 @@ namespace NetWorthCalc.Web.Models
     {
         public MonthlyReport()
         {
-            Id = new Guid();
+            MonthlyReportId = new Guid();
             CreatedOn = DateTime.Now;
         }
 
-        public Guid Id { get; private set; }
+        public Guid MonthlyReportId { get; private set; }
 
         public DateTime CreatedOn { get; private set; }
 
@@ -22,5 +22,7 @@ namespace NetWorthCalc.Web.Models
         public int Month { get; set; }
 
         public int Year { get; set; }
+
+        public List<Asset> Assets { get; set; }
     }
 }
