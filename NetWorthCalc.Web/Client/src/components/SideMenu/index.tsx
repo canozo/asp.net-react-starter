@@ -35,17 +35,6 @@ const SideMenu: React.FC = () => {
 
         {/* Options */}
         <div className="d-flex flex-column h-100 justify-content-evenly align-items-start">
-          <div className="option" onClick={() => history.push('/app/reports')}>
-            <button
-              type="button"
-              className="btn btn-light btn-icon"
-              onClick={() => history.push('/app/reports')}
-            >
-              <Briefcase />
-            </button>
-            {shrink ? null : <span className="opt-text css-fade">Monthly Reports</span>}
-          </div>
-
           <div className="option" onClick={() => history.push('/app/new')}>
             <button
               type="button"
@@ -55,6 +44,17 @@ const SideMenu: React.FC = () => {
               <PlusSquare />
             </button>
             {shrink ? null : <span className="opt-text css-fade">New Report</span>}
+          </div>
+
+          <div className="option" onClick={() => history.push('/app/reports')}>
+            <button
+              type="button"
+              className="btn btn-light btn-icon"
+              onClick={() => history.push('/app/reports')}
+            >
+              <Briefcase />
+            </button>
+            {shrink ? null : <span className="opt-text css-fade">Monthly Reports</span>}
           </div>
 
           <div className="option" onClick={() => history.push('/app/history')}>

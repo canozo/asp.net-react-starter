@@ -42,8 +42,8 @@ const Dashboard: React.FC = () => {
           </div>
           <Switch>
             <Route exact path="/app" component={Introduction} />
-            <Route path="/app/reports" component={Reports} />
             <Route path="/app/new" component={NewReport} />
+            <Route path="/app/reports" component={Reports} />
             <Route path="/app/history" component={History} />
             <Route component={NotFound} />
           </Switch>
