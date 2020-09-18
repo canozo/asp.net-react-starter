@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NetWorthCalc.Web.Models;
 
@@ -42,7 +43,11 @@ namespace NetWorthCalc.Web.Controllers
         public IActionResult GetOne(Guid id)
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var monthlyReport = _context.MonthlyReports.Find(id);
+            var monthlyReport = _context.MonthlyReports
+                .Include(mr => mr.Liabilities)
+                .Include(mr => mr.Assets)
+                .Where(mr => mr.MonthlyReportId == id)
+                .FirstOrDefault();
 
             if (monthlyReport == null)
             {
