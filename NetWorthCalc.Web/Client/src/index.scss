@@ -4,6 +4,10 @@ body, html, .root {
   font-family: 'Roboto', sans-serif;
 }
 
+.btn.btn-icon {
+  width: 3rem;
+}
+
 .css-fade {
   animation: opacity-in 1s;
 }

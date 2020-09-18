@@ -11,3 +11,30 @@
   background-color: #393b44;
   width: 5rem;
 }
+
+#side-menu .options {
+  min-height: 50%;
+  width: 12rem;
+  overflow-x: hidden;
+
+  transition: width 1s;
+}
+
+#side-menu.shrink .options {
+  width: 3rem;
+}
+
+#side-menu .options {
+  cursor: pointer;
+}
+
+#side-menu .options .option {
+
+}
+
+#side-menu .options .option .opt-text {
+  overflow-x: hidden;
+}
+
+#side-menu.shrink .options .option .opt-text {
+}
