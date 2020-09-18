@@ -4,6 +4,7 @@ using System.Linq;
 using System.Security.Claims;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
 using NetWorthCalc.Web.Models;
 
@@ -35,7 +36,8 @@ namespace NetWorthCalc.Web.Controllers
                     a.AssetId,
                     a.CreatedOn,
                     a.Name,
-                    a.Amount
+                    a.Amount,
+                    a.MonthlyReport
                 }).OrderByDescending(a => a.CreatedOn);
         }
 
@@ -55,8 +57,8 @@ namespace NetWorthCalc.Web.Controllers
                 return Unauthorized("This report doesn't belong to you.");
             }
 
-            var asset = new Asset(monthlyReport);
-            _context.Add(asset);
+            var asset = new Asset();
+            monthlyReport.Assets.Add(asset);
             _context.SaveChanges();
 
             return Ok(asset);
@@ -66,7 +68,7 @@ namespace NetWorthCalc.Web.Controllers
         public IActionResult Put(Guid id, [FromBody] AssetParameters body)
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var asset = _context.Assets.Find(id);
+            var asset = _context.Assets.Include(a => a.MonthlyReport).Where(a => a.AssetId == id).FirstOrDefault();
 
             if (asset == null)
             {
@@ -78,25 +80,32 @@ namespace NetWorthCalc.Web.Controllers
                 return Unauthorized("This asset doesn't belong to you.");
             }
 
-            asset.Name = body.Name;
-            asset.Amount = body.Amount;
-            _context.SaveChanges();
+            try
+            {
+                asset.Name = body.Name;
+                asset.Amount = body.Amount;
+                _context.SaveChanges();
 
-            return Ok(asset);
+                return Ok(asset);
+            }
+            catch (Exception)
+            {
+                return StatusCode(415, "Fields missing or not valid: 'Name' (Not null), 'Amount' (>= 0.0)");
+            }
         }
 
         public class AssetParameters
         {
             public string Name { get; set; }
 
-            public int Amount { get; set; }
+            public double Amount { get; set; }
         }
 
         [HttpDelete("{id}")]
         public IActionResult Put(Guid id)
         {
             string userId = User.FindFirst(ClaimTypes.NameIdentifier).Value;
-            var asset = _context.Assets.Find(id);
+            var asset = _context.Assets.Include(a => a.MonthlyReport).Where(a => a.AssetId == id).FirstOrDefault();
 
             if (asset == null)
             {
