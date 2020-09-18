@@ -21,4 +21,4 @@ steps:
   args: ['app', 'deploy', 'app.yaml']
   dir: 'NetWorthCalc.Web/bin/Release/netcoreapp3.1/publish'
 
-timeout: 720s # 12 minutes
+timeout: 900s # 15 minutes
