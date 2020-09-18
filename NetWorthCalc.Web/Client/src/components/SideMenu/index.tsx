@@ -5,7 +5,7 @@ import { Power, ArrowLeft, ArrowRight, Briefcase, PlusSquare, Calendar } from 'r
 import './SideMenu.scss';
 
 const SideMenu: React.FC = () => {
-  const [shrink, setShrink] = useState(false);
+  const [shrink, setShrink] = useState(window.innerWidth < 768);
   const { logout, user } = useAuth0();
   const history = useHistory();
 
