@@ -48,7 +48,7 @@ const Info: React.FC = () => {
       }
     };
     getData();
-  }, []);
+  }, []); // eslint-disable-line
 
   const deleteMonthlyReport = async () => {
     try {

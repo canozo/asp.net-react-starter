@@ -42,7 +42,7 @@ const AssetComponent: React.FC<Props> = ({ index, asset, onDelete }) => {
         console.log(error);
       }
     }, 3000);
-  }, [name, amount])
+  }, [name, amount]); // eslint-disable-line
 
   const changeAssetName = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);

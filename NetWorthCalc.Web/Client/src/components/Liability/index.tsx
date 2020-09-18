@@ -42,7 +42,7 @@ const LiabilityComponent: React.FC<Props> = ({ index, liability, onDelete }) => 
         console.log(error);
       }
     }, 3000);
-  }, [name, amount])
+  }, [name, amount]); // eslint-disable-line
 
   const changeLiabilityName = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
