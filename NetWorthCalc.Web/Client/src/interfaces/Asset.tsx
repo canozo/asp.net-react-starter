@@ -5,7 +5,11 @@ export default interface Asset {
   amount: number;
 };
 
-export function clone(asset: Asset): Asset {
+export function clone(asset: Asset | null): Asset | null {
+  if (asset === null) {
+    return null;
+  }
+
   return {
     assetId: asset.assetId,
     createdOn: asset.createdOn,
