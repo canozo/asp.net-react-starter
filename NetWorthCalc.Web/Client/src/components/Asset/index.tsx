@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import Asset from '../../interfaces/Asset';
 
@@ -11,32 +11,43 @@ interface Props {
 const AssetComponent: React.FC<Props> = ({ index, asset, onDelete }) => {
   const [name, setName] = useState(asset.name);
   const [amount, setAmount] = useState(asset.amount);
-
+  const timer = useRef<number | null>(null);
+  const fetched = useRef<boolean>(false);
   const { getAccessTokenSilently } = useAuth0();
 
-  const changeAssetName = async (event: React.ChangeEvent<HTMLInputElement>) => {
-    try {
-      const token = await getAccessTokenSilently();
-      const body = {
-        name: event.target.value,
-        amount: amount,
-      };
-
-      const response = await fetch(`/api/asset/${asset.assetId}`, {
-        method: 'put',
-        body: JSON.stringify(body),
-        headers: {
-          Authorization: `Bearer ${token}`,
-          'Content-Type': 'application/json',
-        },
-      });
-
-      if (response.ok) {
-        setName(event.target.value);
-      }
-    } catch (error) {
-      console.log(error);
+  useEffect(() => {
+    if (!fetched.current) {
+      fetched.current = true;
+      return;
     }
+
+    if (timer.current !== null) {
+      console.log('Cancel');
+      clearTimeout(timer.current);
+      timer.current = null;
+    }
+
+    timer.current = window.setTimeout(async () => {
+      timer.current = null;
+      try {
+        const token = await getAccessTokenSilently();
+        console.log('Saving');
+        fetch(`/api/asset/${asset.assetId}`, {
+          method: 'put',
+          body: JSON.stringify({ name, amount }),
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'application/json',
+          },
+        });
+      } catch (error) {
+        console.log(error);
+      }
+    }, 3000);
+  }, [name, amount])
+
+  const changeAssetName = async (event: React.ChangeEvent<HTMLInputElement>) => {
+    setName(event.target.value);
   };
 
   const changeAssetAmount = async (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
@@ -44,7 +55,6 @@ const AssetComponent: React.FC<Props> = ({ index, asset, onDelete }) => {
     if (number < 0) {
       return;
     }
-
     setAmount(number);
   };
 
