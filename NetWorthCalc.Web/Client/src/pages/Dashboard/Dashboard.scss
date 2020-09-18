@@ -1,0 +1,13 @@
+.dashboard {
+  background-color: #f1f3f8;
+  min-height: 100%;
+  overflow-y: scroll;
+  max-height: 100vh;
+}
+
+.dashboard .title {
+  cursor: pointer;
+  font-family: 'Libre Barcode 128 Text', cursive;
+  font-weight: 500;
+  font-size: 2rem;
+}

@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import SideMenu from '../../components/SideMenu';
+import './Dashboard.scss';
 
 const Dashboard: React.FC = () => {
   const { isLoading, isAuthenticated } = useAuth0();
@@ -27,10 +28,14 @@ const Dashboard: React.FC = () => {
   }
 
   return (
-    <div className="d-flex justify-content-between min-vh-100">
+    <div className="d-flex justify-content-between min-vh-100 css-fade">
       <SideMenu />
-      <div style={{ backgroundColor: '#f1f3f8' }} className="container-fluid">
-        <div className="container bg-primary mt-5">2</div>
+      <div className="container-fluid dashboard">
+        <div className="container mt-5">
+          <div className="title" onClick={() => history.push('/')}>
+            Net Worth Calculator
+          </div>
+        </div>
       </div>
     </div>
   );
