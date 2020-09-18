@@ -13,8 +13,8 @@ const Dashboard: React.FC = () => {
   return (
     <div className="d-flex justify-content-between min-vh-100">
       <SideMenu />
-      <div className="container-fluid bg-dark">
-        <div className="container bg-primary">2</div>
+      <div style={{ backgroundColor: '#f1f3f8' }} className="container-fluid">
+        <div className="container bg-primary mt-5">2</div>
       </div>
     </div>
   );

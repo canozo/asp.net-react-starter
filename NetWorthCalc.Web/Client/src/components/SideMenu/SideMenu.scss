@@ -1,3 +1,13 @@
 #side-menu {
-  background-color: cyan;
+  background: linear-gradient(45deg, rgba(54,54,54,1) 25%, rgb(25, 35, 48) 95%);
+  width: 16rem;
+
+  color: #f1f3f8;
+
+  transition: width 1s;
+}
+
+#side-menu.shrink {
+  background-color: #393b44;
+  width: 5rem;
 }
