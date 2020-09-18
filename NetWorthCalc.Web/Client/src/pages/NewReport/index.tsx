@@ -1,13 +1,23 @@
 import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import Body from '../../components/Body';
 import './NewReport.scss'
+
+interface MonthlyReportResult {
+  monthlyReportId: string;
+  createdOn: string;
+  month: number;
+  year: number;
+  fullDate: string;
+};
 
 const NewReport: React.FC = () => {
   const today = new Date();
   const [month, setMonth] = useState(today.getMonth());
   const [year, setYear] = useState(today.getFullYear());
   const { getAccessTokenSilently } = useAuth0();
+  const history = useHistory();
 
   const changeMonth = (event: React.ChangeEvent<HTMLInputElement>) => {
     const number = Number(event.target.value);
@@ -26,22 +36,28 @@ const NewReport: React.FC = () => {
   const createReport = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
 
-    const token = await getAccessTokenSilently();
-    const body = {
-      month,
-      year,
-    };
+    try {
+      const token = await getAccessTokenSilently();
+      const body = {
+        Month: Number(month) + 1,
+        Year: Number(year),
+      };
 
-    const result = await fetch('/api/monthlyreport', {
-      method: 'post',
-      body: JSON.stringify(body),
-      headers: {
-        Accept: 'application/json',
-        Authorization: `Bearer ${token}`,
-      },
-    });
+      const response = fetch('/api/monthlyreport', {
+        method: 'post',
+        body: JSON.stringify(body),
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'application/json',
+        },
+      });
 
-    console.log(result);
+      const result: MonthlyReportResult = await response.then(res => res.json());
+      history.push(`/app/info/${result.monthlyReportId}`);
+
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   return (

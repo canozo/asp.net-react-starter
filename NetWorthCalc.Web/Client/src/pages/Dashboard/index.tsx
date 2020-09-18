@@ -4,6 +4,7 @@ import { useAuth0 } from '@auth0/auth0-react';
 import SideMenu from '../../components/SideMenu';
 import Introduction from '../../pages/Introduction';
 import Reports from '../../pages/Reports';
+import Info from '../../pages/Info';
 import NewReport from '../../pages/NewReport';
 import History from '../../pages/History';
 import NotFound from '../../pages/NotFound';
@@ -42,6 +43,7 @@ const Dashboard: React.FC = () => {
           </div>
           <Switch>
             <Route exact path="/app" component={Introduction} />
+            <Route path="/app/info/:reportid" component={Info} />
             <Route path="/app/new" component={NewReport} />
             <Route path="/app/reports" component={Reports} />
             <Route path="/app/history" component={History} />
