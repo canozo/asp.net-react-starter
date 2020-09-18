@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useLocation, useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
-import MonthlyReport from '../../interfaces/MonthlyReport';
+import MonthlyReport, { clone } from '../../interfaces/MonthlyReport';
 import Asset from '../../interfaces/Asset';
 import Liability from '../../interfaces/Liability';
 import Body from '../../components/Body';
@@ -72,8 +72,9 @@ const Info: React.FC = () => {
 
       if (response.ok) {
         const result: Asset = await response.json();
-        monthlyReport?.assets.push(result);
-        setMonthlyReport(monthlyReport);
+        const newReport: MonthlyReport | null = clone(monthlyReport);
+        newReport?.assets.push(result);
+        setMonthlyReport(newReport);
       }
     } catch (error) {
       console.log(error);
@@ -92,8 +93,9 @@ const Info: React.FC = () => {
 
       if (response.ok) {
         const result: Liability = await response.json();
-        monthlyReport?.liabilities.push(result);
-        setMonthlyReport(monthlyReport);
+        const newReport: MonthlyReport | null = clone(monthlyReport);
+        newReport?.liabilities.push(result);
+        setMonthlyReport(newReport);
       }
     } catch (error) {
       console.log(error);
