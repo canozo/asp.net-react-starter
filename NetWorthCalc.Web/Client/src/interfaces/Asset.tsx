@@ -4,16 +4,3 @@ export default interface Asset {
   name: string;
   amount: number;
 };
-
-export function clone(asset: Asset | null): Asset | null {
-  if (asset === null) {
-    return null;
-  }
-
-  return {
-    assetId: asset.assetId,
-    createdOn: asset.createdOn,
-    name: asset.name,
-    amount: asset.amount,
-  };
-};
