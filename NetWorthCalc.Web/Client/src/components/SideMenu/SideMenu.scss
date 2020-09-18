@@ -17,7 +17,7 @@
   width: 12rem;
   overflow-x: hidden;
 
-  transition: width 1s;
+  transition: width 1s, min-height 1s;
 }
 
 #side-menu.shrink .options {
@@ -29,12 +29,36 @@
 }
 
 #side-menu .options .option {
+  min-width: 100%;
+}
 
+#side-menu .options .avatar {
+  width: 6rem;
+  height: 6rem;
+  border-radius: 50%;
+
+  transition: width 1s, height 1s;
+}
+
+#side-menu.shrink .options .avatar {
+  width: 3rem;
+  height: 3rem;
+}
+
+#side-menu .options .user-name {
+  opacity: 1;
+  transition: opacity 1s;
+}
+
+#side-menu.shrink .options .user-name {
+  opacity: 0;
 }
 
 #side-menu .options .option .opt-text {
-  overflow-x: hidden;
+  visibility: initial;
+  padding-left: 8px;
 }
 
 #side-menu.shrink .options .option .opt-text {
+  visibility: hidden;
 }

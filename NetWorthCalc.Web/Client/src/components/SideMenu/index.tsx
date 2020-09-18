@@ -9,8 +9,6 @@ const SideMenu: React.FC = () => {
   const { logout, user } = useAuth0();
   const history = useHistory();
 
-  console.log(user);
-
   let classNames = 'd-flex flex-column justify-content-around align-items-center';
   if (shrink) {
     classNames += ' shrink';
@@ -27,37 +25,48 @@ const SideMenu: React.FC = () => {
         {shrink ? <ArrowRight size={18} /> : <ArrowLeft size={18} />}
       </button>
 
-      {/* Options and avatar */}
-      <div className="options d-flex flex-column justify-content-evenly align-items-center">
-        <div className="option text-center" onClick={() => history.push('/app/reports')}>
-          <button
-            type="button"
-            className="btn btn-light btn-icon"
-            onClick={() => history.push('/app/reports')}
-          >
-            <Briefcase />
-          </button>
-          {shrink ? null : <p className="opt-text pt-2 css-fade">Monthly Reports</p>}
+      {/* Options and user info */}
+      <div className="options d-flex flex-column justify-content-between align-items-center">
+        {/* User info */}
+        <div className="d-flex flex-column justify-content-between align-items-center">
+          <img className="avatar" src={user.picture} alt="Your profile" />
+          <p className="user-name">{user.email}</p>
         </div>
-        <div className="option text-center" onClick={() => history.push('/app/new')}>
-          <button
-            type="button"
-            className="btn btn-light btn-icon"
-            onClick={() => history.push('/app/new')}
-          >
-            <PlusSquare />
-          </button>
-          {shrink ? null : <p className="opt-text pt-2 css-fade">New Monthly Report</p>}
-        </div>
-        <div className="option text-center" onClick={() => history.push('/app/history')}>
-          <button
-            type="button"
-            className="btn btn-light btn-icon"
-            onClick={() => history.push('/app/history')}
-          >
-            <Calendar />
-          </button>
-          {shrink ? null : <p className="opt-text pt-2 css-fade">History</p>}
+
+        {/* Options */}
+        <div className="d-flex flex-column h-100 justify-content-evenly align-items-start">
+          <div className="option" onClick={() => history.push('/app/reports')}>
+            <button
+              type="button"
+              className="btn btn-light btn-icon"
+              onClick={() => history.push('/app/reports')}
+            >
+              <Briefcase />
+            </button>
+            {shrink ? null : <span className="opt-text css-fade">Monthly Reports</span>}
+          </div>
+
+          <div className="option" onClick={() => history.push('/app/new')}>
+            <button
+              type="button"
+              className="btn btn-light btn-icon"
+              onClick={() => history.push('/app/new')}
+            >
+              <PlusSquare />
+            </button>
+            {shrink ? null : <span className="opt-text css-fade">New Report</span>}
+          </div>
+
+          <div className="option" onClick={() => history.push('/app/history')}>
+            <button
+              type="button"
+              className="btn btn-light btn-icon"
+              onClick={() => history.push('/app/history')}
+            >
+              <Calendar />
+            </button>
+            {shrink ? null : <span className="opt-text css-fade">History</span>}
+          </div>
         </div>
       </div>
 
