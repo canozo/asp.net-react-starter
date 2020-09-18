@@ -1,7 +1,12 @@
 import React, { useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Switch, Route, useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import SideMenu from '../../components/SideMenu';
+import Introduction from '../../pages/Introduction';
+import Reports from '../../pages/Reports';
+import NewReport from '../../pages/NewReport';
+import History from '../../pages/History';
+import NotFound from '../../pages/NotFound';
 import './Dashboard.scss';
 
 const Dashboard: React.FC = () => {
@@ -35,6 +40,13 @@ const Dashboard: React.FC = () => {
           <div className="title" onClick={() => history.push('/')}>
             Net Worth Calculator
           </div>
+          <Switch>
+            <Route exact path="/app" component={Introduction} />
+            <Route path="/app/reports" component={Reports} />
+            <Route path="/app/new" component={NewReport} />
+            <Route path="/app/history" component={History} />
+            <Route component={NotFound} />
+          </Switch>
         </div>
       </div>
     </div>
