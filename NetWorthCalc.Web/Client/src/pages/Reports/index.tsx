@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import Body from '../../components/Body';
 import { MonthlyReportInfo } from '../../interfaces/MonthlyReport';
@@ -45,8 +45,25 @@ const Reports: React.FC = () => {
     getData();
   }, []); // eslint-disable-line
 
-  const deleteReport = async () => {
+  const deleteReport = async (report: MonthlyReportInfo) => {
+    try {
+      const token = await getAccessTokenSilently();
+      const response = await fetch(`/api/monthlyreport/${report.monthlyReportId}`, {
+        method: 'delete',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      });
 
+      if (response.ok) {
+        const newReports = monthlyReports.filter(
+          mr => mr.monthlyReportId !== report.monthlyReportId
+        );
+        setMonthlyReports(newReports);
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const dateTime = (date: Date): string => {
@@ -59,6 +76,11 @@ const Reports: React.FC = () => {
       title="All saved reports"
       subtitle="Modify and delete past reports in case you made a mistake."
     >
+      {monthlyReports.length === 0 ? (
+        <Link to="/app/new">
+          Not seeing anything? Head over <b>here</b> to create a new report!
+        </Link>
+      ) : null}
       <div className="d-flex flex-column align-items-start">
         {monthlyReports.map(monthlyReport => (
           <div key={monthlyReport.monthlyReportId} className="container report">
@@ -84,7 +106,11 @@ const Reports: React.FC = () => {
               >
                 View and modify
               </button>
-              <button type="button" className="btn btn-danger mx-1" onClick={deleteReport}>
+              <button
+                type="button"
+                className="btn btn-danger mx-1"
+                onClick={() => deleteReport(monthlyReport)}
+              >
                 Delete
               </button>
             </div>
