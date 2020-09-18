@@ -12,11 +12,9 @@ namespace NetWorthCalc.Web.Controllers
     public class WeatherForecastController : ControllerBase
     {
         private readonly WeatherContext _context;
-        private readonly ILogger<WeatherForecastController> _logger;
 
-        public WeatherForecastController(ILogger<WeatherForecastController> logger, WeatherContext context)
+        public WeatherForecastController(WeatherContext context)
         {
-            _logger = logger;
             _context = context;
         }
 

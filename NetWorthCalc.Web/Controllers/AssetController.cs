@@ -16,11 +16,9 @@ namespace NetWorthCalc.Web.Controllers
     public class AssetController : ControllerBase
     {
         private readonly NetWorthContext _context;
-        private readonly ILogger<MonthlyReportController> _logger;
 
-        public AssetController(ILogger<MonthlyReportController> logger, NetWorthContext context)
+        public AssetController(NetWorthContext context)
         {
-            _logger = logger;
             _context = context;
         }
 
