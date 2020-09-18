@@ -3,3 +3,24 @@ body, html, .root {
   margin: 0;
   font-family: 'Roboto', sans-serif;
 }
+
+.css-fade {
+  animation: opacity-in 1s;
+}
+
+.css-fade-slow {
+  animation: opacity-in 2s;
+}
+
+.css-fade-fast {
+  animation: opacity-in 0.5s;
+}
+
+@keyframes opacity-in {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
