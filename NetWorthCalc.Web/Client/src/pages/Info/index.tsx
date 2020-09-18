@@ -5,6 +5,7 @@ import MonthlyReport from '../../interfaces/MonthlyReport';
 import Asset from '../../interfaces/Asset';
 import Liability from '../../interfaces/Liability';
 import AssetComponent from '../../components/Asset';
+import LiabilityComponent from '../../components/Liability';
 import Body from '../../components/Body';
 import './Info.scss';
 
@@ -122,7 +123,7 @@ const Info: React.FC = () => {
     return (
       <Body
         title="Monthly report information"
-        subtitle="Modify your monthly report information."
+        subtitle="Modify your monthly report information, changes are saved automatically."
       >
         <div className="d-flex min-vh-100 align-items-center justify-content-center">
           <div className="spinner-border text-dark" role="status">
@@ -136,7 +137,7 @@ const Info: React.FC = () => {
   return (
     <Body
       title="Monthly report information"
-      subtitle="Modify your monthly report information."
+      subtitle="Modify your monthly report information, changes are saved automatically."
     >
       <button type="button" className="btn btn-danger" onClick={deleteMonthlyReport}>
         Delete monthly report
@@ -145,7 +146,7 @@ const Info: React.FC = () => {
         <div className="row">
           <div className="col-lg mt-3">
             {/* Assets */}
-            <p className="form-label">Assets</p>
+            <p className="subheader">Assets</p>
             <button type="button" className="btn btn-primary mb-3" onClick={addAsset}>
               Add new asset
             </button>
@@ -161,12 +162,19 @@ const Info: React.FC = () => {
 
           <div className="col-lg mt-3">
             {/* Liabilities */}
-            <p className="form-label">Liabilities</p>
+            <p className="subheader">Liabilities</p>
             <button type="button" className="btn btn-primary mb-3" onClick={addLiability}>
               Add new liability
             </button>
-            {liabilities?.map(liability => (
-              <div key={liability.liabilityId}>{liability.liabilityId}</div>
+            {liabilities?.map((liability, index) => (
+              <LiabilityComponent
+                key={liability.liabilityId}
+                index={index}
+                liability={liability}
+                onDelete={() => setLiabilities(
+                  liabilities.filter(l => l.liabilityId !== liability.liabilityId)
+                )}
+              />
             ))}
           </div>
         </div>

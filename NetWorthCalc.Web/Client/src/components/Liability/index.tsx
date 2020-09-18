@@ -1,16 +1,16 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
-import Asset from '../../interfaces/Asset';
+import Liability from '../../interfaces/Liability';
 
 interface Props {
   index: number;
-  asset: Asset;
+  liability: Liability;
   onDelete: () => void;
 };
 
-const AssetComponent: React.FC<Props> = ({ index, asset, onDelete }) => {
-  const [name, setName] = useState(asset.name);
-  const [amount, setAmount] = useState(asset.amount);
+const LiabilityComponent: React.FC<Props> = ({ index, liability, onDelete }) => {
+  const [name, setName] = useState(liability.name);
+  const [amount, setAmount] = useState(liability.amount);
   const timer = useRef<number | null>(null);
   const fetched = useRef<boolean>(false);
   const { getAccessTokenSilently } = useAuth0();
@@ -30,7 +30,7 @@ const AssetComponent: React.FC<Props> = ({ index, asset, onDelete }) => {
       timer.current = null;
       try {
         const token = await getAccessTokenSilently();
-        fetch(`/api/asset/${asset.assetId}`, {
+        fetch(`/api/liability/${liability.liabilityId}`, {
           method: 'put',
           body: JSON.stringify({ name, amount }),
           headers: {
@@ -44,11 +44,11 @@ const AssetComponent: React.FC<Props> = ({ index, asset, onDelete }) => {
     }, 3000);
   }, [name, amount])
 
-  const changeAssetName = async (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changeLiabilityName = async (event: React.ChangeEvent<HTMLInputElement>) => {
     setName(event.target.value);
   };
 
-  const changeAssetAmount = async (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
+  const changeLiabilityAmount = async (event: React.ChangeEvent<HTMLInputElement>, index: number) => {
     const number = Number(event.target.value);
     if (number < 0) {
       return;
@@ -56,10 +56,10 @@ const AssetComponent: React.FC<Props> = ({ index, asset, onDelete }) => {
     setAmount(number);
   };
 
-  const deleteAsset = async () => {
+  const deleteLiability = async () => {
     try {
       const token = await getAccessTokenSilently();
-      const response = await fetch(`/api/asset/${asset.assetId}`, {
+      const response = await fetch(`/api/liability/${liability.liabilityId}`, {
         method: 'delete',
         headers: {
           Authorization: `Bearer ${token}`
@@ -77,40 +77,40 @@ const AssetComponent: React.FC<Props> = ({ index, asset, onDelete }) => {
   return (
     <div className="mb-5">
       <div className="mb-1">
-        <label htmlFor={`assetName#${index}`} className="form-label">
-          Asset name
+        <label htmlFor={`liabilityName#${index}`} className="form-label">
+          Liability name
         </label>
         <input
           type="text"
           className="form-control"
-          id={`assetName#${index}`}
+          id={`liabilityName#${index}`}
           value={name}
-          onChange={event => changeAssetName(event)}
+          onChange={event => changeLiabilityName(event)}
         />
       </div>
       <div className="mb-1">
-        <label htmlFor={`assetAmount#${index}`} className="form-label">
-          Asset amount
+        <label htmlFor={`liabilityAmount#${index}`} className="form-label">
+          Liability amount
         </label>
         <input
           type="number"
           className="form-control"
-          id={`assetAmount#${index}`}
+          id={`liabilityAmount#${index}`}
           value={amount}
-          onChange={event => changeAssetAmount(event, index)}
+          onChange={event => changeLiabilityAmount(event, index)}
         />
       </div>
       <div className="mb-1">
         <button
           type="button"
           className="btn btn-danger"
-          onClick={() => deleteAsset()}
+          onClick={() => deleteLiability()}
         >
-          Delete asset
+          Delete liability
         </button>
       </div>
     </div>
   );
 };
 
-export default AssetComponent;
+export default LiabilityComponent;
