@@ -11,8 +11,8 @@ import './Info.scss';
 
 const Info: React.FC = () => {
   const [monthlyReport, setMonthlyReport] = useState<MonthlyReport | null>(null);
-  const [assets, setAssets] = useState<Array<Asset> | null>(null);
-  const [liabilities, setLiabilities] = useState<Array<Liability> | null>(null);
+  const [assets, setAssets] = useState<Array<Asset>>([]);
+  const [liabilities, setLiabilities] = useState<Array<Liability>>([]);
   const { getAccessTokenSilently } = useAuth0();
   const location = useLocation();
   const history = useHistory();
@@ -70,10 +70,6 @@ const Info: React.FC = () => {
   };
 
   const addAsset = async () => {
-    if (assets == null) {
-      return;
-    }
-
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(`/api/asset/${monthlyReportId}`, {
@@ -95,10 +91,6 @@ const Info: React.FC = () => {
   };
 
   const addLiability = async () => {
-    if (liabilities == null) {
-      return;
-    }
-
     try {
       const token = await getAccessTokenSilently();
       const response = await fetch(`/api/liability/${monthlyReportId}`, {
@@ -150,7 +142,7 @@ const Info: React.FC = () => {
             <button type="button" className="btn btn-primary mb-3" onClick={addAsset}>
               Add new asset
             </button>
-            {assets?.map((asset, index) => (
+            {assets.map((asset, index) => (
               <AssetComponent
                 key={asset.assetId}
                 index={index}
@@ -166,7 +158,7 @@ const Info: React.FC = () => {
             <button type="button" className="btn btn-primary mb-3" onClick={addLiability}>
               Add new liability
             </button>
-            {liabilities?.map((liability, index) => (
+            {liabilities.map((liability, index) => (
               <LiabilityComponent
                 key={liability.liabilityId}
                 index={index}

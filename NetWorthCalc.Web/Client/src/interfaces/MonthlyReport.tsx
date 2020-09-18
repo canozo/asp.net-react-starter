@@ -10,3 +10,11 @@ export default interface MonthlyReport {
   assets: Array<Asset>;
   liabilities: Array<Liability>;
 };
+
+export interface MonthlyReportInfo {
+  monthlyReportId: string;
+  createdOn: string;
+  month: string;
+  year: string;
+  fullDate: string;
+};
