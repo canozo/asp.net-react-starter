@@ -1,16 +1,9 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
+import MonthlyReport from '../../interfaces/MonthlyReport';
 import Body from '../../components/Body';
 import './NewReport.scss'
-
-interface MonthlyReportResult {
-  monthlyReportId: string;
-  createdOn: string;
-  month: number;
-  year: number;
-  fullDate: string;
-};
 
 const NewReport: React.FC = () => {
   const today = new Date();
@@ -52,7 +45,7 @@ const NewReport: React.FC = () => {
         },
       });
 
-      const result: MonthlyReportResult = await response.then(res => res.json());
+      const result: MonthlyReport = await response.then(res => res.json());
       history.push(`/app/info/${result.monthlyReportId}`);
 
     } catch (error) {
