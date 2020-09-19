@@ -7,12 +7,12 @@ import './NewReport.scss'
 
 const NewReport: React.FC = () => {
   const today = new Date();
-  const [month, setMonth] = useState(today.getMonth());
+  const [month, setMonth] = useState(today.getMonth() + 1);
   const [year, setYear] = useState(today.getFullYear());
   const { getAccessTokenSilently } = useAuth0();
   const history = useHistory();
 
-  const changeMonth = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const changeMonth = (event: React.ChangeEvent<HTMLSelectElement>) => {
     const number = Number(event.target.value);
     if (number >= 0 && number < 12) {
       setMonth(number);
@@ -32,7 +32,7 @@ const NewReport: React.FC = () => {
     try {
       const token = await getAccessTokenSilently();
       const body = {
-        Month: Number(month) + 1,
+        Month: Number(month),
         Year: Number(year),
       };
 
@@ -64,14 +64,25 @@ const NewReport: React.FC = () => {
             <div className="col-lg mt-3">
               {/* Month */}
               <label htmlFor="inputMonth" className="form-label">Month</label>
-              <input
-                type="number"
-                id="inputMonth"
-                className="form-control"
-                aria-describedby="monthHelpBlock"
+              <select
+                className="form-select"
+                aria-label="Select the month of your report"
                 value={month}
                 onChange={changeMonth}
-              />
+              >
+                <option value="1">January</option>
+                <option value="2">February</option>
+                <option value="3">March</option>
+                <option value="4">April</option>
+                <option value="5">May</option>
+                <option value="6">June</option>
+                <option value="7">July</option>
+                <option value="8">August</option>
+                <option value="9">September</option>
+                <option value="10">October</option>
+                <option value="11">November</option>
+                <option value="12">December</option>
+              </select>
               <div id="monthHelpBlock" className="form-text">
                 Select the month that you're about to save information about.
               </div>

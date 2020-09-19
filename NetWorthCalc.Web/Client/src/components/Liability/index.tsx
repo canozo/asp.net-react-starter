@@ -82,6 +82,7 @@ const LiabilityComponent: React.FC<Props> = ({ index, liability, onDelete }) => 
         </label>
         <input
           type="text"
+          placeholder="Credit cards"
           className="form-control"
           id={`liabilityName#${index}`}
           value={name}
@@ -92,15 +93,19 @@ const LiabilityComponent: React.FC<Props> = ({ index, liability, onDelete }) => 
         <label htmlFor={`liabilityAmount#${index}`} className="form-label">
           Liability amount
         </label>
-        <input
-          type="number"
-          className="form-control"
-          id={`liabilityAmount#${index}`}
-          value={amount}
-          onChange={event => changeLiabilityAmount(event, index)}
-        />
+        <div className="input-group mb-3">
+          <span className="input-group-text">$</span>
+          <input
+            type="number"
+            placeholder="250000"
+            className="form-control"
+            id={`liabilityAmount#${index}`}
+            value={amount}
+            onChange={event => changeLiabilityAmount(event, index)}
+          />
+        </div>
       </div>
-      <div className="mb-1">
+      <div className="mt-2">
         <button
           type="button"
           className="btn btn-danger"

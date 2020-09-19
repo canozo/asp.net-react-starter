@@ -82,6 +82,7 @@ const AssetComponent: React.FC<Props> = ({ index, asset, onDelete }) => {
         </label>
         <input
           type="text"
+          placeholder="My Tesla Model S"
           className="form-control"
           id={`assetName#${index}`}
           value={name}
@@ -92,15 +93,19 @@ const AssetComponent: React.FC<Props> = ({ index, asset, onDelete }) => {
         <label htmlFor={`assetAmount#${index}`} className="form-label">
           Asset amount
         </label>
-        <input
-          type="number"
-          className="form-control"
-          id={`assetAmount#${index}`}
-          value={amount}
-          onChange={event => changeAssetAmount(event, index)}
-        />
+        <div className="input-group mb-3">
+          <span className="input-group-text">$</span>
+          <input
+            type="number"
+            placeholder="80000"
+            className="form-control"
+            id={`assetAmount#${index}`}
+            value={amount}
+            onChange={event => changeAssetAmount(event, index)}
+          />
+        </div>
       </div>
-      <div className="mb-1">
+      <div className="mt-2">
         <button
           type="button"
           className="btn btn-danger"
