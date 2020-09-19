@@ -1,13 +1,33 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Power, ArrowLeft, ArrowRight, Briefcase, PlusSquare, Calendar } from 'react-feather';
+import NetWorth from '../../interfaces/NetWorth';
 import './SideMenu.scss';
 
 const SideMenu: React.FC = () => {
+  const [networth, setNetworth] = useState(0.0);
   const [shrink, setShrink] = useState(window.innerWidth < 768);
-  const { logout, user } = useAuth0();
+  const { getAccessTokenSilently, logout, user } = useAuth0();
   const history = useHistory();
+
+  useEffect(() => {
+    const getData = async () => {
+      const token = await getAccessTokenSilently();
+      const response = await fetch('/api/yearlyreport/latest', {
+        method: 'get',
+        headers: {
+          Authorization: `Bearer ${token}`
+        },
+      });
+
+      if (response.ok) {
+        const resData: NetWorth = await response.json();
+        setNetworth(resData.total);
+      }
+    };
+    getData();
+  }, []); // eslint-disable-line
 
   let classNames = 'd-flex flex-column justify-content-around align-items-center';
   if (shrink) {
@@ -31,6 +51,7 @@ const SideMenu: React.FC = () => {
         <div className="d-flex flex-column justify-content-between align-items-center">
           <img className="avatar" src={user.picture} alt="Your profile" />
           <p className="user-name">{user.email}</p>
+          <p className="user-name">Latest Net Worth: </p> ${networth}
         </div>
 
         {/* Options */}
