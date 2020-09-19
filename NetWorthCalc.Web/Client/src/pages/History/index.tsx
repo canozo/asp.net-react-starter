@@ -1,6 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useRef } from 'react';
 import { useAuth0 } from '@auth0/auth0-react';
 import { Line } from 'react-chartjs-2';
+import { ArrowLeft, ArrowRight } from 'react-feather';
 import YearlyReport from '../../interfaces/YearlyReport';
 import Body from '../../components/Body';
 import './History.scss';
@@ -47,6 +48,7 @@ const History: React.FC = () => {
       label: `Year ${year}`,
     }]
   });
+  const loading = useRef(true);
 
   const { getAccessTokenSilently } = useAuth0();
 
@@ -62,6 +64,7 @@ const History: React.FC = () => {
 
       if (response.ok) {
         const resData: Array<YearlyReport> = await response.json();
+        loading.current = false;
         setData({
           labels,
           datasets: [{
@@ -72,6 +75,7 @@ const History: React.FC = () => {
         });
       }
     };
+    loading.current = true;
     getData();
   }, [year]); // eslint-disable-line
 
@@ -80,6 +84,24 @@ const History: React.FC = () => {
       title="Net worth history"
       subtitle="See how your net worth has changed over the last year."
     >
+      <div className="container">
+        <div className="row">
+          <div className="col">
+            <b>Selected year: </b> {year}
+          </div>
+        </div>
+        <div className="row">
+          <div className="col">
+            <button type="button" className="btn btn-dark mx-1" onClick={() => setYear(year - 1)}>
+              <ArrowLeft />
+            </button>
+            <button type="button" className="btn btn-dark mx-1" onClick={() => setYear(year + 1)}>
+              <ArrowRight />
+            </button>
+          </div>
+        </div>
+      </div>
+
       <Line data={data} />
     </Body>
   );
