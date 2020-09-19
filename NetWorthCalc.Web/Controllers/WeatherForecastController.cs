@@ -2,7 +2,6 @@
 using System.Collections.Generic;
 using System.Linq;
 using Microsoft.AspNetCore.Mvc;
-using Microsoft.Extensions.Logging;
 using NetWorthCalc.Web.Models;
 
 namespace NetWorthCalc.Web.Controllers
